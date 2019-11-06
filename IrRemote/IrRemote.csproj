@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CAD136B9-1028-499A-8265-8B40B7DCC462}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EV3.Dev.Csharp</RootNamespace>
-    <AssemblyName>EV3.Dev.Csharp</AssemblyName>
+    <ProjectGuid>{7268A44B-B591-475F-B11D-F2777BC1CB03}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>IrRemote</RootNamespace>
+    <AssemblyName>IrRemote</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,13 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Drivers.cs" />
-    <Compile Include="ev3dev.cs" />
-    <Compile Include="ev3dev.InfraredSensorModes.cs" />
-    <Compile Include="ev3dev.MotorCommands.cs" />
-    <Compile Include="ev3dev.PropertyValues.cs" />
-    <Compile Include="ev3dev.SystemProperties.cs" />
+    <Compile Include="DriveService.cs" />
+    <Compile Include="DriveState.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ev3-dev-csharp\ev3-dev-csharp.csproj">
+      <Project>{cad136b9-1028-499a-8265-8b40b7dcc462}</Project>
+      <Name>ev3-dev-csharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
