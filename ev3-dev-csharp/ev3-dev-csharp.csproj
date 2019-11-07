@@ -41,13 +41,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Drivers.cs" />
-    <Compile Include="ev3dev.cs" />
-    <Compile Include="ev3dev.InfraredSensorModes.cs" />
-    <Compile Include="ev3dev.MotorCommands.cs" />
-    <Compile Include="ev3dev.PropertyValues.cs" />
-    <Compile Include="ev3dev.SystemProperties.cs" />
+    <Compile Include="Devices\Button.cs" />
+    <Compile Include="Sensors\ColorSensor.cs" />
+    <Compile Include="Motors\DcMotor.cs" />
+    <Compile Include="Devices\Device.cs" />
+    <Compile Include="Constants\Drivers.cs" />
+    <Compile Include="Constants\Inputs.cs" />
+    <Compile Include="Sensors\GyroSensor.cs" />
+    <Compile Include="Sensors\I2CSensor.cs" />
+    <Compile Include="Sensors\InfraredSensor.cs" />
+    <Compile Include="Motors\LargeMotor.cs" />
+    <Compile Include="Devices\Led.cs" />
+    <Compile Include="Devices\LegoPort.cs" />
+    <Compile Include="Sensors\LightSensor.cs" />
+    <Compile Include="Motors\MediumMotor.cs" />
+    <Compile Include="Motors\Motor.cs" />
+    <Compile Include="Constants\Outputs.cs" />
+    <Compile Include="Devices\PowerSupply.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sensors\Sensor.cs" />
+    <Compile Include="Motors\ServoMotor.cs" />
+    <Compile Include="Sensors\SoundSensor.cs" />
+    <Compile Include="Sensors\TouchSensor.cs" />
+    <Compile Include="Sensors\UltrasonicSensor.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

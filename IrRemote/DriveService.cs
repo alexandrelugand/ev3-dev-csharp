@@ -19,6 +19,7 @@
 
 using System;
 using EV3.Dev.Csharp;
+using EV3.Dev.Csharp.Motors;
 
 namespace IrRemote
 {

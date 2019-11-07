@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ev3-dev-csharp", "ev3-dev-c
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrRemote", "IrRemote\IrRemote.csproj", "{7268A44B-B591-475F-B11D-F2777BC1CB03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaySound", "PlaySound\PlaySound.csproj", "{871E7241-0A81-4B3D-AD0E-DB2490D13209}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7268A44B-B591-475F-B11D-F2777BC1CB03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7268A44B-B591-475F-B11D-F2777BC1CB03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7268A44B-B591-475F-B11D-F2777BC1CB03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{871E7241-0A81-4B3D-AD0E-DB2490D13209}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{871E7241-0A81-4B3D-AD0E-DB2490D13209}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{871E7241-0A81-4B3D-AD0E-DB2490D13209}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{871E7241-0A81-4B3D-AD0E-DB2490D13209}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

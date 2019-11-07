@@ -19,6 +19,8 @@
 using System;
 using System.Threading;
 using EV3.Dev.Csharp;
+using EV3.Dev.Csharp.Sensors;
+using EV3.Dev.Csharp.System;
 
 namespace IrRemote
 {
@@ -28,15 +30,14 @@ namespace IrRemote
 		{
 			Console.Clear();
 			
-			InfraredSensor s = new InfraredSensor(Inputs.INPUT_4);
+			var s = new InfraredSensor(Inputs.Input4);
 
-			var driveService1 = new DriveService(Outputs.OUTPUT_D, Outputs.OUTPUT_A);
+			var driveService1 = new DriveService(Outputs.OutputD, Outputs.OutputA);
 
 			s.SetIrRemote();
 
 			while (true)
 			{
-
 				Thread.Sleep(100);
 				if (Console.KeyAvailable)
 				{
@@ -47,7 +48,7 @@ namespace IrRemote
 
 				int value0 = s.GetInt();
 
-				DriveState driveState1 = new DriveState(value0);
+				var driveState1 = new DriveState(value0);
 				driveService1.Drive(driveState1);
 			}
 		}
