@@ -10,6 +10,7 @@ namespace PlaySound
 	{
 		public static void Main(string[] args)
 		{
+			Console.Clear();
 			var s = new InfraredSensor(Inputs.Input4);
 			Process p = null;
 			while (true)
@@ -22,8 +23,7 @@ namespace PlaySound
 						break;
 				}
 
-				int value0 = s.GetInt();
-				switch (value0)
+				switch (s.GetInt())
 				{
 					case 1: // red up
 						p = PlaySoundFile(p, "sound1.rsf");
@@ -39,8 +39,7 @@ namespace PlaySound
 						break;
 					case 9:
 						{
-							if (p != null && !p.HasExited)
-								p.Kill();
+							InterrutSound(p);
 							break;
 						}
 				}
@@ -48,14 +47,22 @@ namespace PlaySound
 
 		}
 
+		public static void InterrutSound(Process p)
+		{
+			if (p != null && !p.HasExited)
+			{
+				p.EnableRaisingEvents = false;
+				p.Kill();
+				Console.WriteLine("Interrupt sound!");
+			}
+		}
+
 		public static Process PlaySoundFile(Process p, string soundFilePath)
 		{
-			if(p != null && !p.HasExited)
-				p.Kill();
-
+			InterrutSound(p);
 			var proc = new Process
 			{
-				EnableRaisingEvents = false,
+				EnableRaisingEvents = true,
 				StartInfo =
 				{
 					FileName = "aplay",
@@ -63,6 +70,8 @@ namespace PlaySound
 				}
 			};
 			proc.Start();
+			proc.Exited += (sender, args) => Console.WriteLine($"'{soundFilePath}' sound finished");
+			Console.WriteLine($"Play '{soundFilePath}' sound...");
 			return proc;
 		}
 	}
