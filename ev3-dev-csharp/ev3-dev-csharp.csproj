@@ -31,16 +31,32 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Unity.Abstractions, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.1\lib\net47\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.1\lib\net47\Unity.Container.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\DeviceTypes.cs" />
+    <Compile Include="Core\DesignPatterns\Singleton.cs" />
+    <Compile Include="Core\Helpers\LogHelper.cs" />
+    <Compile Include="Core\Helpers\Status.cs" />
     <Compile Include="Devices\Button.cs" />
     <Compile Include="Sensors\ColorSensor.cs" />
     <Compile Include="Motors\DcMotor.cs" />
@@ -64,7 +80,18 @@
     <Compile Include="Sensors\SoundSensor.cs" />
     <Compile Include="Sensors\TouchSensor.cs" />
     <Compile Include="Sensors\UltrasonicSensor.cs" />
+    <Compile Include="Services\Ev3Services.cs" />
+    <Compile Include="Services\IEv3Services.cs" />
+    <Compile Include="Services\Logs\ILoggerManager.cs" />
+    <Compile Include="Services\Logs\LoggerManager.cs" />
+    <Compile Include="Services\Sound\ISoundManager.cs" />
+    <Compile Include="Services\Sound\SoundManager.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

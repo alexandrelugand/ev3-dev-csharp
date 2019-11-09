@@ -1,4 +1,4 @@
-using EV3.Dev.Csharp.System;
+using EV3.Dev.Csharp.Constants;
 
 namespace EV3.Dev.Csharp.Sensors
 {
@@ -8,7 +8,7 @@ namespace EV3.Dev.Csharp.Sensors
 	public class TouchSensor : Sensor
 	{
 		public TouchSensor(string port)
-			: base(port, new[] { Drivers.LegoEv3Touch, Drivers.LegoNxtTouch })
+			: base(port, DeviceTypes.TouchSensor, new[] { Drivers.LegoEv3Touch, Drivers.LegoNxtTouch })
 		{
 		}
 	}

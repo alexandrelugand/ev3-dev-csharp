@@ -1,4 +1,4 @@
-using EV3.Dev.Csharp.System;
+using EV3.Dev.Csharp.Constants;
 
 namespace EV3.Dev.Csharp.Sensors
 {
@@ -8,7 +8,7 @@ namespace EV3.Dev.Csharp.Sensors
 	public class I2CSensor : Sensor
 	{
 		public I2CSensor(string port)
-			: base(port, new[] { Drivers.NxtI2CSensor })
+			: base(port, DeviceTypes.I2CSensor, new[] { Drivers.NxtI2CSensor })
 		{
 		}
 

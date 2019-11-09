@@ -1,4 +1,4 @@
-using EV3.Dev.Csharp.System;
+using EV3.Dev.Csharp.Constants;
 
 namespace EV3.Dev.Csharp.Sensors
 {
@@ -8,7 +8,7 @@ namespace EV3.Dev.Csharp.Sensors
 	public class UltrasonicSensor : Sensor
 	{
 		public UltrasonicSensor(string port)
-			: base(port, new[] { Drivers.LegoEv3Us, Drivers.LegoNxtUs })
+			: base(port, DeviceTypes.UltraSonicSensor, new[] { Drivers.LegoEv3Us, Drivers.LegoNxtUs })
 		{
 		}
 		/// <summary> 

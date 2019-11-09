@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using EV3.Dev.Csharp.Constants;
 using EV3.Dev.Csharp.Devices;
-using EV3.Dev.Csharp.System;
 
 namespace EV3.Dev.Csharp.Sensors
 {
@@ -23,26 +23,26 @@ namespace EV3.Dev.Csharp.Sensors
 	/// </summary>
 	public class Sensor : Device
 	{
-		public Sensor(string port)
+		public Sensor(string port, string deviceType)
 		{
-			Connect(new Dictionary<string, string[]>
+			Connect(deviceType, new Dictionary<string, string[]>
 			{
 				{ "address", new[] { port }
 				}
 			});
 		}
 
-		protected bool Connect(IDictionary<string, string[]> match)
+		protected bool Connect(string deviceType, IDictionary<string, string[]> match)
 		{
 			string classDir = global::System.IO.Path.Combine(SysRoot, "class", "lego-sensor");
 			string pattern = "sensor";
 
-			return Connect(classDir, pattern, match);
+			return Connect(deviceType, classDir, pattern, match);
 		}
 
-		public Sensor(string port, string[] driverNames)
+		public Sensor(string port, string deviceType, string[] driverNames)
 		{
-			Connect(new Dictionary<string, string[]>
+			Connect(deviceType, new Dictionary<string, string[]>
 			{
 				{ "address", new[] { port } },
 				{ "driver_name", driverNames }

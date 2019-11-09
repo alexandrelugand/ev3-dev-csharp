@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using EV3.Dev.Csharp.Constants;
 
 namespace EV3.Dev.Csharp.Devices
 {
@@ -15,7 +16,7 @@ namespace EV3.Dev.Csharp.Devices
 			if (string.IsNullOrEmpty(name))
 				name = "legoev3-battery";
 
-			Connect(strClassDir,
+			Connect(DeviceTypes.PowerSupply, strClassDir,
 				name,
 				new Dictionary<string, string[]>());
 		}

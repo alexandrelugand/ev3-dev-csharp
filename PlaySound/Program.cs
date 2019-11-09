@@ -1,78 +1,72 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Threading;
+using EV3.Dev.Csharp.Constants;
+using EV3.Dev.Csharp.Core.Helpers;
 using EV3.Dev.Csharp.Sensors;
-using EV3.Dev.Csharp.System;
+using EV3.Dev.Csharp.Services;
+using EV3.Dev.Csharp.Services.Sound;
+using log4net;
 
 namespace PlaySound
 {
 	public class Program
 	{
+		private static ILog Logger { get; set; }
+
 		public static void Main(string[] args)
 		{
-			Console.Clear();
-			var s = new InfraredSensor(Inputs.Input4);
-			Process p = null;
-			while (true)
+			try
 			{
-				Thread.Sleep(100);
-				if (Console.KeyAvailable)
-				{
-					var key = Console.ReadKey();
-					if (key.Key == ConsoleKey.Escape)
-						break;
-				}
+				var ev3Services = Ev3Services.Instance;
+				Logger = ev3Services.GetService<ILog>();
+				Logger.Clear();
 
-				switch (s.GetInt())
+				var fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
+				var version = fvi.FileVersion;
+				Logger.Debug($"###### EV3 Play sound ({version}) ######");
+
+				var soundManager = ev3Services.GetService<ISoundManager>();
+				var s = new InfraredSensor(Inputs.Input4);
+				while (true)
 				{
-					case 1: // red up
-						p = PlaySoundFile(p, "sound1.rsf");
-						break;
-					case 3: // blue up
-						p = PlaySoundFile(p, "sound2.rsf");
-						break;
-					case 2:// red down
-						p = PlaySoundFile(p, "sound3.rsf");
-						break;
-					case 4:// blue down
-						p = PlaySoundFile(p, "sound4.rsf");
-						break;
-					case 9:
+					Thread.Sleep(100);
+					if (Console.KeyAvailable)
+					{
+						var key = Console.ReadKey();
+						if (key.Key == ConsoleKey.Escape)
+							break;
+					}
+
+					switch (s.GetInt())
+					{
+						case 1: // red up
+							soundManager.PlaySoundFile("sound1.rsf");
+							break;
+						case 3: // blue up
+							soundManager.PlaySoundFile("sound2.rsf");
+							break;
+						case 2:// red down
+							soundManager.PlaySoundFile("sound3.rsf");
+							break;
+						case 4:// blue down
+							soundManager.PlaySoundFile("sound4.rsf");
+							break;
+						case 9:
 						{
-							InterrutSound(p);
+							soundManager.InterruptSound();
 							break;
 						}
+					}
 				}
 			}
-
-		}
-
-		public static void InterrutSound(Process p)
-		{
-			if (p != null && !p.HasExited)
+			catch (Exception ex)
 			{
-				p.EnableRaisingEvents = false;
-				p.Kill();
-				Console.WriteLine("Interrupt sound!");
+				Logger?.Error("Unexpected error", ex);
+				Console.ReadKey();
 			}
-		}
 
-		public static Process PlaySoundFile(Process p, string soundFilePath)
-		{
-			InterrutSound(p);
-			var proc = new Process
-			{
-				EnableRaisingEvents = true,
-				StartInfo =
-				{
-					FileName = "aplay",
-					Arguments = soundFilePath
-				}
-			};
-			proc.Start();
-			proc.Exited += (sender, args) => Console.WriteLine($"'{soundFilePath}' sound finished");
-			Console.WriteLine($"Play '{soundFilePath}' sound...");
-			return proc;
 		}
 	}
 }

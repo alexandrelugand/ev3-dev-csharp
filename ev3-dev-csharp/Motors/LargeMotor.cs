@@ -1,3 +1,5 @@
+using EV3.Dev.Csharp.Constants;
+
 namespace EV3.Dev.Csharp.Motors
 {
 	/// <summary> 
@@ -6,7 +8,7 @@ namespace EV3.Dev.Csharp.Motors
 	public class LargeMotor : Motor
 	{
 		public LargeMotor(string port)
-			: base(port, "lego-ev3-l-motor")
+			: base(port, DeviceTypes.LargeMotor, "lego-ev3-l-motor")
 		{
 		}
 	}

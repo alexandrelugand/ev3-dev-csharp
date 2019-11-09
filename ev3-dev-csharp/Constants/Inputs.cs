@@ -1,4 +1,4 @@
-namespace EV3.Dev.Csharp.System
+namespace EV3.Dev.Csharp.Constants
 {
 	public static class Inputs
 	{

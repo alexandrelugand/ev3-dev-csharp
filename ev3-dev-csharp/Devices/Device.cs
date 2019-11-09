@@ -1,23 +1,37 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using log4net;
+using EV3.Dev.Csharp.Services;
+using EV3.Dev.Csharp.Core.Helpers;
 
 namespace EV3.Dev.Csharp.Devices
 {
 	public class Device
 	{
-		public static string SysRoot = "/sys/";
+		protected readonly Ev3Services Ev3Services;
+		protected readonly ILog Logger;
+
+		protected const string SysRoot = "/sys/";
 		private int _deviceIndex = -1;
+
+
+		public Device()
+		{
+			Ev3Services = Ev3Services.Instance;
+			Logger = Ev3Services.GetService<ILog>();
+		}
 
 		protected string Path { get; set; }
 
-		protected bool Connect(string classDir, string pattern, IDictionary<string, string[]> match)
+		protected bool Connect(string deviceType, string classDir, string pattern, IDictionary<string, string[]> match)
 		{
 			if (!Directory.Exists(classDir))
 				return false;
 
-			Console.WriteLine($"##### > Trying to connect device '{classDir}' with '{pattern}' pattern ...");
+			Debug.WriteLine($"##### > Trying to connect device '{classDir}' with '{pattern}' pattern ...");
 			var dirs = Directory.EnumerateDirectories(classDir);
 			foreach (var currentFullDirPath in dirs)
 			{
@@ -25,16 +39,16 @@ namespace EV3.Dev.Csharp.Devices
 				if (dirName != null && dirName.StartsWith(pattern))
 				{
 					Path = global::System.IO.Path.Combine(classDir, dirName);
-					Console.WriteLine($"\t- Found '{Path}' device");
-					bool bMatch = true;
+					Debug.WriteLine($"\t- Found '{Path}' device");
+					var bMatch = true;
 					foreach (var m in match)
 					{
 
 						var attribute = m.Key;
 						var matches = m.Value;
-						Console.WriteLine($"\t\tTrying to find a matching attribute with '{attribute}' key. Values: {string.Join(", ", m.Value)}...");
+						Debug.WriteLine($"\t\tTrying to find a matching attribute with '{attribute}' key. Values: {string.Join(", ", m.Value)}...");
 						var strValue = GetAttrString(attribute);
-						Console.WriteLine($"\t\tAttribute value = '{strValue}'");
+						Debug.WriteLine($"\t\tAttribute value = '{strValue}'");
 
 
 						if (matches.Any() && !string.IsNullOrEmpty(matches.First())
@@ -47,22 +61,19 @@ namespace EV3.Dev.Csharp.Devices
 
 					if (bMatch)
 					{
-						Console.WriteLine("##### > Device connected successfully!");
+						Logger.Status(Status.OK, $"'{deviceType}' connected");
 						return true;
 					}
 
 					Path = null;
 				}
 			}
-			Console.WriteLine(@"##### > /!\ 'Failed to connect device :-(");
+			Logger.Status(Status.KO, $"'{deviceType}' disconnected!");
 			return false;
 
 		}
 
-		public bool Connected
-		{
-			get { return !string.IsNullOrEmpty(Path); }
-		}
+		public bool Connected => !string.IsNullOrEmpty(Path);
 
 		public int DeviceIndex
 		{
@@ -72,9 +83,9 @@ namespace EV3.Dev.Csharp.Devices
 
 				if (_deviceIndex < 0)
 				{
-					int f = 1;
+					var f = 1;
 					_deviceIndex = 0;
-					foreach (char c in Path.Where(char.IsDigit))
+					foreach (var c in Path.Where(char.IsDigit))
 					{
 						_deviceIndex += (int)char.GetNumericValue(c) * f;
 						f *= 10;
@@ -84,17 +95,14 @@ namespace EV3.Dev.Csharp.Devices
 				return _deviceIndex;
 			}
 
-			protected set
-			{
-				_deviceIndex = value;
-			}
+			protected set => _deviceIndex = value;
 		}
 
 		public int GetAttrInt(string name)
 		{
 			AssertConnected();
 
-			using (StreamReader os = OpenStreamReader(name))
+			using (var os = OpenStreamReader(name))
 			{
 				return int.Parse(os.ReadToEnd());
 			}
@@ -104,7 +112,7 @@ namespace EV3.Dev.Csharp.Devices
 		{
 			AssertConnected();
 
-			using (StreamWriter os = OpenStreamWriter(name))
+			using (var os = OpenStreamWriter(name))
 			{
 				os.Write(value);
 			}
@@ -114,7 +122,7 @@ namespace EV3.Dev.Csharp.Devices
 		{
 			AssertConnected();
 
-			using (StreamReader os = OpenStreamReader(name))
+			using (var os = OpenStreamReader(name))
 			{
 				return os.ReadToEnd().TrimEnd();
 			}
@@ -125,7 +133,7 @@ namespace EV3.Dev.Csharp.Devices
 		{
 			AssertConnected();
 
-			using (StreamWriter os = OpenStreamWriter(name))
+			using (var os = OpenStreamWriter(name))
 			{
 				os.Write(value);
 			}
@@ -135,7 +143,7 @@ namespace EV3.Dev.Csharp.Devices
 		{
 			AssertConnected();
 
-			using (StreamReader os = OpenStreamReader(name))
+			using (var os = OpenStreamReader(name))
 			{
 				return os.ReadLine();
 			}
@@ -143,14 +151,14 @@ namespace EV3.Dev.Csharp.Devices
 
 		public string[] GetAttrSet(string name)
 		{
-			string s = GetAttrLine(name);
+			var s = GetAttrLine(name);
 			return s.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 		}
 
 		public string[] GetAttrSet(string name, out string pCur)
 		{
 			pCur = null;
-			string[] result = GetAttrSet(name);
+			var result = GetAttrSet(name);
 			var bracketedValue = result.FirstOrDefault(s => s.StartsWith("["));
 			if (bracketedValue != null) 
 				pCur = bracketedValue.Substring(1, bracketedValue.Length - 2);
@@ -159,7 +167,7 @@ namespace EV3.Dev.Csharp.Devices
 
 		public string GetAttrFromSet(string name)
 		{
-			string[] result = GetAttrSet(name);
+			var result = GetAttrSet(name);
 			var bracketedValue = result.FirstOrDefault(s => s.StartsWith("["));
 			var pCur = bracketedValue?.Substring(1, bracketedValue.Length - 2);
 			return pCur;

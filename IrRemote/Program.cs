@@ -1,55 +1,56 @@
-﻿/*
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- */
-
-using System;
+﻿using System;
+using System.Diagnostics;
+using System.Reflection;
 using System.Threading;
-using EV3.Dev.Csharp;
+using EV3.Dev.Csharp.Constants;
+using EV3.Dev.Csharp.Core.Helpers;
 using EV3.Dev.Csharp.Sensors;
-using EV3.Dev.Csharp.System;
+using EV3.Dev.Csharp.Services;
+using log4net;
 
 namespace IrRemote
 {
 	public class Program
 	{
+		private static ILog Logger { get; set; }
+
 		public static void Main(string[] args)
 		{
-			Console.Clear();
-			
-			var s = new InfraredSensor(Inputs.Input4);
-
-			var driveService1 = new DriveService(Outputs.OutputD, Outputs.OutputA);
-
-			s.SetIrRemote();
-
-			while (true)
+			try
 			{
-				Thread.Sleep(100);
-				if (Console.KeyAvailable)
+				Logger = Ev3Services.Instance.GetService<ILog>();
+				Logger.Clear();
+
+				var fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
+				var version = fvi.FileVersion;
+				Logger.Debug($"###### EV3 Infrared Remote ({version}) ######");
+
+				var s = new InfraredSensor(Inputs.Input4);
+
+				var driveService1 = new DriveService(Outputs.OutputD, Outputs.OutputA);
+
+				s.SetIrRemote();
+
+				while (true)
 				{
-					var key = Console.ReadKey();
-					if (key.Key == ConsoleKey.Escape)
-						break;
+					Thread.Sleep(100);
+					if (Console.KeyAvailable)
+					{
+						var key = Console.ReadKey();
+						if (key.Key == ConsoleKey.Escape)
+							break;
+					}
+
+					int value0 = s.GetInt();
+
+					var driveState1 = new DriveState(value0);
+					driveService1.Drive(driveState1);
 				}
-
-				int value0 = s.GetInt();
-
-				var driveState1 = new DriveState(value0);
-				driveService1.Drive(driveState1);
+			}
+			catch (Exception ex)
+			{
+				Logger?.Error("Unexpected error", ex);
+				Console.ReadKey();
 			}
 		}
 	}

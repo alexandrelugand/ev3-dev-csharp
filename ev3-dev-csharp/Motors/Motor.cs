@@ -11,9 +11,9 @@ namespace EV3.Dev.Csharp.Motors
 	/// </summary>
 	public class Motor : Device
 	{
-		protected Motor(string port, string motorType)
+		protected Motor(string port, string deviceType, string motorType)
 		{
-			Connect(new Dictionary<string, string[]>
+			Connect(deviceType, new Dictionary<string, string[]>
 			{
 				{ "address", new[] { port } },
 				{ "driver_name", new[] { motorType } }
@@ -117,12 +117,12 @@ namespace EV3.Dev.Csharp.Motors
 		/// </summary>
 		public const string StopCommandHold = "hold";
 
-		protected bool Connect(IDictionary<string, string[]> match)
+		protected bool Connect(string device, IDictionary<string, string[]> match)
 		{
 			string classDir = global::System.IO.Path.Combine(SysRoot, "class", "tacho-motor");
 			string pattern = "motor";
 
-			return Connect(classDir, pattern, match);
+			return Connect(device, classDir, pattern, match);
 		}
 
 		/// <summary> 
