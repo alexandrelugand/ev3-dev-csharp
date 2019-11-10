@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrRemote", "IrRemote\IrRemo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaySound", "PlaySound\PlaySound.csproj", "{871E7241-0A81-4B3D-AD0E-DB2490D13209}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintableChar", "PrintableChar\PrintableChar.csproj", "{EDB5CEAE-0B18-4CAC-9278-764A360A89CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{871E7241-0A81-4B3D-AD0E-DB2490D13209}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{871E7241-0A81-4B3D-AD0E-DB2490D13209}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{871E7241-0A81-4B3D-AD0E-DB2490D13209}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDB5CEAE-0B18-4CAC-9278-764A360A89CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDB5CEAE-0B18-4CAC-9278-764A360A89CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDB5CEAE-0B18-4CAC-9278-764A360A89CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDB5CEAE-0B18-4CAC-9278-764A360A89CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using log4net;
@@ -31,7 +30,7 @@ namespace EV3.Dev.Csharp.Devices
 			if (!Directory.Exists(classDir))
 				return false;
 
-			Debug.WriteLine($"##### > Trying to connect device '{classDir}' with '{pattern}' pattern ...");
+			Logger.Debug($"##### > Trying to connect device '{classDir}' with '{pattern}' pattern ...");
 			var dirs = Directory.EnumerateDirectories(classDir);
 			foreach (var currentFullDirPath in dirs)
 			{
@@ -39,16 +38,16 @@ namespace EV3.Dev.Csharp.Devices
 				if (dirName != null && dirName.StartsWith(pattern))
 				{
 					Path = global::System.IO.Path.Combine(classDir, dirName);
-					Debug.WriteLine($"\t- Found '{Path}' device");
+					Logger.Debug($"\t- Found '{Path}' device");
 					var bMatch = true;
 					foreach (var m in match)
 					{
 
 						var attribute = m.Key;
 						var matches = m.Value;
-						Debug.WriteLine($"\t\tTrying to find a matching attribute with '{attribute}' key. Values: {string.Join(", ", m.Value)}...");
+						Logger.Debug($"\t\tTrying to find a matching attribute with '{attribute}' key. Values: {string.Join(", ", m.Value)}...");
 						var strValue = GetAttrString(attribute);
-						Debug.WriteLine($"\t\tAttribute value = '{strValue}'");
+						Logger.Debug($"\t\tAttribute value = '{strValue}'");
 
 
 						if (matches.Any() && !string.IsNullOrEmpty(matches.First())

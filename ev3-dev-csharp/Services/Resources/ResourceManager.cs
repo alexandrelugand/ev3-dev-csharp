@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using EV3.Dev.Csharp.Core.Helpers;
 using log4net;
 
 namespace EV3.Dev.Csharp.Services.Resources
@@ -10,26 +11,45 @@ namespace EV3.Dev.Csharp.Services.Resources
 	{
 	    private readonly ILog _logger;
 	    private readonly DirectoryInfo _resourcesDirectoryInfo;
+	    private readonly Dictionary<string, string> _soundFiles = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
-	    public ResourceManager(ILog logger)
+		public ResourceManager(ILog logger)
 	    {
 		    _logger = logger;
-		    _resourcesDirectoryInfo =
-			    new DirectoryInfo(Path.Combine(Path.Combine(Assembly.GetExecutingAssembly().Location), "resources"));
+		    // ReSharper disable once AssignNullToNotNullAttribute
+		    _resourcesDirectoryInfo = new DirectoryInfo(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "resources"));
+		    if (_resourcesDirectoryInfo.Exists)
+		    {
+				LoadSounds(_resourcesDirectoryInfo);
+		    }
 	    }
 
-	    public IDictionary<string, string> GetSounds()
+	    private void LoadSounds(DirectoryInfo directoryInfo)
 	    {
-		    _logger.Info("Explorer sound files ...");
-			var soundFiles = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
-		    foreach (var soundFileInfo in _resourcesDirectoryInfo.GetFiles("*.rsf"))
+		    _logger.Debug($"Explore sound files in '{directoryInfo.FullName}' ...");
+			foreach (var soundFileInfo in directoryInfo.GetFiles())
 		    {
-				_logger.Info($"Found '{soundFileInfo.FullName}' sound files");
-			    if(!soundFiles.ContainsKey(soundFileInfo.Name))
-					soundFiles.Add(soundFileInfo.Name, soundFileInfo.FullName);
+				if(Path.GetExtension(soundFileInfo.Name).EqualsNoCase(".rsf"))
+				{
+					_logger.Debug($"Found '{soundFileInfo.FullName}' sound file");
+					if (!_soundFiles.ContainsKey(Path.GetFileNameWithoutExtension(soundFileInfo.Name)))
+						_soundFiles.Add(Path.GetFileNameWithoutExtension(soundFileInfo.Name), soundFileInfo.FullName);
+				}
 		    }
-		    return soundFiles;
 
+			foreach (var subDirectoryInfo in directoryInfo.GetDirectories())
+			{
+				if (subDirectoryInfo.Name == "." || subDirectoryInfo.Name == "..")
+					continue; 
+				LoadSounds(subDirectoryInfo);
+			}
+		}
+
+	    public string GetSounds(string soundName)
+	    {
+		    if (_soundFiles.TryGetValue(soundName, out string s))
+			    return s;
+		    return string.Empty;
 	    }
     }
 }

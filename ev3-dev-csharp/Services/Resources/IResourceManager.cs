@@ -4,6 +4,6 @@ namespace EV3.Dev.Csharp.Services.Resources
 {
 	public interface IResourceManager
 	{
-		IDictionary<string, string> GetSounds();
+		string GetSounds(string soundName);
 	}
 }

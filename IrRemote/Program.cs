@@ -23,7 +23,7 @@ namespace IrRemote
 
 				var fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
 				var version = fvi.FileVersion;
-				Logger.Debug($"###### EV3 Infrared Remote ({version}) ######");
+				Logger.Info($"###### EV3 Infrared Remote ({version}) ######");
 
 				var s = new InfraredSensor(Inputs.Input4);
 
@@ -49,8 +49,14 @@ namespace IrRemote
 			}
 			catch (Exception ex)
 			{
-				Logger?.Error("Unexpected error", ex);
-				Console.ReadKey();
+				if(Logger != null)
+				{
+					Logger.Status(Status.KO, "Unexpected error");
+					Console.ReadKey();
+
+					Logger.Error("Stack trace", ex);
+					Console.ReadKey();
+				}
 			}
 		}
 	}

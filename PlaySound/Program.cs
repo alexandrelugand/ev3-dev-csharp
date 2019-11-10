@@ -25,7 +25,7 @@ namespace PlaySound
 
 				var fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
 				var version = fvi.FileVersion;
-				Logger.Debug($"###### EV3 Play sound ({version}) ######");
+				Logger.Info($"###### EV3 Play sound ({version}) ######");
 
 				var soundManager = ev3Services.GetService<ISoundManager>();
 				var s = new InfraredSensor(Inputs.Input4);
@@ -42,16 +42,16 @@ namespace PlaySound
 					switch (s.GetInt())
 					{
 						case 1: // red up
-							soundManager.PlaySoundFile("sound1.rsf");
+							soundManager.PlaySound("sound1");
 							break;
 						case 3: // blue up
-							soundManager.PlaySoundFile("sound2.rsf");
+							soundManager.PlaySound("sound2");
 							break;
 						case 2:// red down
-							soundManager.PlaySoundFile("sound3.rsf");
+							soundManager.PlaySound("sound3");
 							break;
 						case 4:// blue down
-							soundManager.PlaySoundFile("sound4.rsf");
+							soundManager.PlaySound("sound4");
 							break;
 						case 9:
 						{
@@ -63,8 +63,14 @@ namespace PlaySound
 			}
 			catch (Exception ex)
 			{
-				Logger?.Error("Unexpected error", ex);
-				Console.ReadKey();
+				if (Logger != null)
+				{
+					Logger.Status(Status.KO, "Unexpected error");
+					Console.ReadKey();
+
+					Logger.Error("Stack trace", ex);
+					Console.ReadKey();
+				}
 			}
 
 		}

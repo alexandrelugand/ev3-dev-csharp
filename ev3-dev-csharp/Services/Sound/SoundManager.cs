@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using EV3.Dev.Csharp.Services.Resources;
 using log4net;
 
 namespace EV3.Dev.Csharp.Services.Sound
@@ -6,12 +7,14 @@ namespace EV3.Dev.Csharp.Services.Sound
 	public class SoundManager : ISoundManager
 	{
 		private readonly ILog _logger;
+		private readonly IResourceManager _resourceManager;
 		private Process _process;
 		private int _volume;
 
-		public SoundManager(ILog logger)
+		public SoundManager(ILog logger, IResourceManager resourceManager)
 		{
 			_logger = logger;
+			_resourceManager = resourceManager;
 			Volume = 50;
 		}
 
@@ -26,21 +29,26 @@ namespace EV3.Dev.Csharp.Services.Sound
 			}
 		}
 
-		public void PlaySoundFile(string soundFilePath)
+		public void PlaySound(string soundName)
 		{
 			InterruptSound();
+
+			var sound = _resourceManager.GetSounds(soundName);
+			if(string.IsNullOrEmpty(sound))
+				return;
+
 			_process = new Process
 			{
 				EnableRaisingEvents = true,
 				StartInfo =
 				{
 					FileName = "aplay",
-					Arguments = soundFilePath
+					Arguments = sound
 				}
 			};
 			_process.Start();
-			_process.Exited += (sender, args) => _logger.Debug($"'{soundFilePath}' sound finished");
-			_logger.Debug($"Play '{soundFilePath}' sound...");
+			_process.Exited += (sender, args) => _logger.Debug($"'{soundName}' sound finished");
+			_logger.Debug($"Play '{soundName}' sound...");
 		}
 
 		public int Volume

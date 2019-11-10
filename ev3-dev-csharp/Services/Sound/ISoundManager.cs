@@ -3,7 +3,7 @@
 	public interface ISoundManager
 	{
 		void InterruptSound();
-		void PlaySoundFile(string soundFilePath);
+		void PlaySound(string soundFilePath);
 		int Volume { get; set; }
 	}
 }

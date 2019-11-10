@@ -15,10 +15,10 @@ namespace EV3.Dev.Csharp.Core.Helpers
 			switch (status)
 			{
 				case Helpers.Status.OK:
-					log.Debug($"[   OK   ]  {string.Format(format, args)}");
+					log.Info($"[  OK  ]  {string.Format(format, args)}");
 					break;
 				case Helpers.Status.KO:
-					log.Debug($"[## KO ##]  {string.Format(format, args)}");
+					log.Info($"[--KO--]  {string.Format(format, args)}");
 					break;
 			}
 			
