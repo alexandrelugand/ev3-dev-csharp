@@ -84,12 +84,12 @@
     <Compile Include="Services\IEv3Services.cs" />
     <Compile Include="Services\Logs\ILoggerManager.cs" />
     <Compile Include="Services\Logs\LoggerManager.cs" />
+    <Compile Include="Services\Resources\IResourceManager.cs" />
+    <Compile Include="Services\Resources\ResourceManager.cs" />
     <Compile Include="Services\Sound\ISoundManager.cs" />
     <Compile Include="Services\Sound\SoundManager.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
