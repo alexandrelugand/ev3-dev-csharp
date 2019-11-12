@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaySound", "PlaySound\Play
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintableChar", "PrintableChar\PrintableChar.csproj", "{EDB5CEAE-0B18-4CAC-9278-764A360A89CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadControl", "HeadControl\HeadControl.csproj", "{A0B0EA30-52F0-449E-9A4E-1F8E9D1217ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotorControl", "MotorControl\MotorControl.csproj", "{30181869-E2A4-4654-B0B1-9B102484938F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{EDB5CEAE-0B18-4CAC-9278-764A360A89CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDB5CEAE-0B18-4CAC-9278-764A360A89CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDB5CEAE-0B18-4CAC-9278-764A360A89CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0B0EA30-52F0-449E-9A4E-1F8E9D1217ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0B0EA30-52F0-449E-9A4E-1F8E9D1217ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0B0EA30-52F0-449E-9A4E-1F8E9D1217ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0B0EA30-52F0-449E-9A4E-1F8E9D1217ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30181869-E2A4-4654-B0B1-9B102484938F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30181869-E2A4-4654-B0B1-9B102484938F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30181869-E2A4-4654-B0B1-9B102484938F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30181869-E2A4-4654-B0B1-9B102484938F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

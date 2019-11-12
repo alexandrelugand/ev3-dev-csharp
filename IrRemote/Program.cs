@@ -6,6 +6,7 @@ using EV3.Dev.Csharp.Constants;
 using EV3.Dev.Csharp.Core.Helpers;
 using EV3.Dev.Csharp.Sensors;
 using EV3.Dev.Csharp.Services;
+using EV3.Dev.Csharp.Services.Sound;
 using log4net;
 
 namespace IrRemote
@@ -18,18 +19,20 @@ namespace IrRemote
 		{
 			try
 			{
-				Logger = Ev3Services.Instance.GetService<ILog>();
+				var ev3Services = Ev3Services.Instance;
+				Logger = ev3Services.GetService<ILog>();
+				var soundManager = ev3Services.GetService<ISoundManager>();
 				Logger.Clear();
 
 				var fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
 				var version = fvi.FileVersion;
 				Logger.Info($"###### EV3 Infrared Remote ({version}) ######");
 
-				var s = new InfraredSensor(Inputs.Input4);
+				var ir = new InfraredSensor(Inputs.Input4);
+				var driveService1 = new DriveService(Outputs.OutputD, Outputs.OutputA, Logger);
 
-				var driveService1 = new DriveService(Outputs.OutputD, Outputs.OutputA);
-
-				s.SetIrRemote();
+				ir.SetIrRemote();
+				soundManager.PlaySound("ready");
 
 				while (true)
 				{
@@ -41,7 +44,7 @@ namespace IrRemote
 							break;
 					}
 
-					int value0 = s.GetInt();
+					int value0 = ir.GetInt();
 
 					var driveState1 = new DriveState(value0);
 					driveService1.Drive(driveState1);

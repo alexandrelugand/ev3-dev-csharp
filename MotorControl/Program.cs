@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using EV3.Dev.Csharp.Constants;
 using EV3.Dev.Csharp.Core.Helpers;
 using EV3.Dev.Csharp.Sensors;
 using EV3.Dev.Csharp.Services;
 using EV3.Dev.Csharp.Services.Sound;
 using log4net;
+using log4net.Repository.Hierarchy;
 
-namespace PlaySound
+namespace MotorControl
 {
 	public class Program
 	{
@@ -26,14 +31,12 @@ namespace PlaySound
 
 				var fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
 				var version = fvi.FileVersion;
-				Logger.Info($"###### EV3 Play sound ({version}) ######");
-
-				var ir = new InfraredSensor(Inputs.Input4);
-				ir.SetIrRemote();
+				Logger.Info($"###### EV3 Motor Control ({version}) ######");
+				var shell = new Shell(Logger);
+				soundManager.PlaySound("ready");
 
 				while (true)
 				{
-					Thread.Sleep(100);
 					if (Console.KeyAvailable)
 					{
 						var key = Console.ReadKey();
@@ -41,26 +44,10 @@ namespace PlaySound
 							break;
 					}
 
-					switch (ir.GetInt())
-					{
-						case 1: // red up
-							soundManager.PlaySound("sound1");
-							break;
-						case 3: // blue up
-							soundManager.PlaySound("sound2");
-							break;
-						case 2:// red down
-							soundManager.PlaySound("sound3");
-							break;
-						case 4:// blue down
-							soundManager.PlaySound("sound4");
-							break;
-						case 9:
-						{
-							soundManager.InterruptSound();
-							break;
-						}
-					}
+					var cmd = Console.ReadLine();
+					var result = shell.Eval(cmd);
+					if(result != null)
+						Logger.Status(Status.OK, $"{result}");
 				}
 			}
 			catch (Exception ex)

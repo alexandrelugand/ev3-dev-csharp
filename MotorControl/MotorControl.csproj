@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7268A44B-B591-475F-B11D-F2777BC1CB03}</ProjectGuid>
+    <ProjectGuid>{30181869-E2A4-4654-B0B1-9B102484938F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>IrRemote</RootNamespace>
-    <AssemblyName>IrRemote</AssemblyName>
+    <RootNamespace>MotorControl</RootNamespace>
+    <AssemblyName>MotorControl</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -33,12 +33,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DynamicExpresso.Core, Version=2.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamicExpresso.Core.2.3.1\lib\net461\DynamicExpresso.Core.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="System">
-      <Private>False</Private>
-    </Reference>
+    <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,10 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DriveService.cs" />
-    <Compile Include="DriveState.cs" />
+    <Compile Include="Commands\CommandsMediumMotor.cs" />
+    <Compile Include="Commands\CommandsMotor.cs" />
+    <Compile Include="Commands\CommandsLargeMotor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shell.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -65,9 +68,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ev3-dev-csharp\ev3-dev-csharp.csproj">
-      <Project>{cad136b9-1028-499a-8265-8b40b7dcc462}</Project>
+      <Project>{CAD136B9-1028-499A-8265-8B40B7DCC462}</Project>
       <Name>ev3-dev-csharp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

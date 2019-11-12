@@ -18,8 +18,13 @@ namespace EV3.Dev.Csharp.Core.Helpers
 					log.Info($"[  OK  ]  {string.Format(format, args)}");
 					break;
 				case Helpers.Status.KO:
-					log.Info($"[--KO--]  {string.Format(format, args)}");
+				{
+					Console.ForegroundColor = ConsoleColor.DarkYellow;
+					log.Info($"[  KO  ]  {string.Format(format, args)}");
+					Console.ForegroundColor = ConsoleColor.White;
 					break;
+				}
+					
 			}
 			
 		}

@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using EV3.Dev.Csharp.Constants;
 using EV3.Dev.Csharp.Core.Helpers;
 using EV3.Dev.Csharp.Sensors;
@@ -9,7 +13,7 @@ using EV3.Dev.Csharp.Services;
 using EV3.Dev.Csharp.Services.Sound;
 using log4net;
 
-namespace PlaySound
+namespace HeadControl
 {
 	public class Program
 	{
@@ -21,16 +25,18 @@ namespace PlaySound
 			{
 				var ev3Services = Ev3Services.Instance;
 				Logger = ev3Services.GetService<ILog>();
-				var soundManager = ev3Services.GetService<ISoundManager>();
 				Logger.Clear();
 
 				var fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
 				var version = fvi.FileVersion;
-				Logger.Info($"###### EV3 Play sound ({version}) ######");
+				Logger.Info($"###### EV3 Head Control ({version}) ######");
 
-				var ir = new InfraredSensor(Inputs.Input4);
-				ir.SetIrRemote();
-
+				var soundManager = ev3Services.GetService<ISoundManager>();
+				var headControl = new HeadControl(Inputs.Input4, Outputs.OutputB, Logger);
+				soundManager.PlaySound("ready");
+				headControl.Calibrate();
+				Console.Clear();
+					
 				while (true)
 				{
 					Thread.Sleep(100);
@@ -41,26 +47,7 @@ namespace PlaySound
 							break;
 					}
 
-					switch (ir.GetInt())
-					{
-						case 1: // red up
-							soundManager.PlaySound("sound1");
-							break;
-						case 3: // blue up
-							soundManager.PlaySound("sound2");
-							break;
-						case 2:// red down
-							soundManager.PlaySound("sound3");
-							break;
-						case 4:// blue down
-							soundManager.PlaySound("sound4");
-							break;
-						case 9:
-						{
-							soundManager.InterruptSound();
-							break;
-						}
-					}
+					headControl.Update();
 				}
 			}
 			catch (Exception ex)

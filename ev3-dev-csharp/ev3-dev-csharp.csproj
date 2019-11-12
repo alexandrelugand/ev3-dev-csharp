@@ -56,6 +56,7 @@
     <Compile Include="Constants\DeviceTypes.cs" />
     <Compile Include="Core\DesignPatterns\Singleton.cs" />
     <Compile Include="Core\Helpers\LogHelper.cs" />
+    <Compile Include="Core\Helpers\Math.cs" />
     <Compile Include="Core\Helpers\Status.cs" />
     <Compile Include="Core\Helpers\StringHelper.cs" />
     <Compile Include="Devices\Button.cs" />

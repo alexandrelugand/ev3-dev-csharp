@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7268A44B-B591-475F-B11D-F2777BC1CB03}</ProjectGuid>
+    <ProjectGuid>{A0B0EA30-52F0-449E-9A4E-1F8E9D1217ED}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>IrRemote</RootNamespace>
-    <AssemblyName>IrRemote</AssemblyName>
+    <RootNamespace>HeadControl</RootNamespace>
+    <AssemblyName>HeadControl</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -36,9 +36,7 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="System">
-      <Private>False</Private>
-    </Reference>
+    <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,8 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DriveService.cs" />
-    <Compile Include="DriveState.cs" />
+    <Compile Include="HeadControl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -65,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ev3-dev-csharp\ev3-dev-csharp.csproj">
-      <Project>{cad136b9-1028-499a-8265-8b40b7dcc462}</Project>
+      <Project>{CAD136B9-1028-499A-8265-8B40B7DCC462}</Project>
       <Name>ev3-dev-csharp</Name>
     </ProjectReference>
   </ItemGroup>

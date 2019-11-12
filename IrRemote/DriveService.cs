@@ -20,19 +20,22 @@
 using System;
 using EV3.Dev.Csharp;
 using EV3.Dev.Csharp.Motors;
+using log4net;
 
 namespace IrRemote
 {
 	internal class DriveService
 	{
+		private readonly ILog _logger;
 		private readonly Motor rightMotor;
 		private readonly Motor leftMotor;
 		private int speed  = 250;
 
 		public DriveState DriveState { get; private set; }
 
-		public DriveService(string rightMotorPort, string leftMotorPort)
+		public DriveService(string rightMotorPort, string leftMotorPort, ILog logger)
 		{
+			_logger = logger;
 			this.DriveState = new DriveState(0);
 			this.rightMotor = new LargeMotor(rightMotorPort);
 			this.leftMotor = new LargeMotor(leftMotorPort);
@@ -71,9 +74,9 @@ namespace IrRemote
 
 		private void ChangeSpeed()
 		{
-			Console.WriteLine("Change speed...");
+			_logger.Debug("Change speed...");
 			speed = Math.Max((speed + 250) % 1250, 250);
-			Console.WriteLine($"New speed = {speed}");
+			_logger.Debug($"New speed = {speed}");
 		}
 
 		private void Apply(Motor motor, MotorDrive drive)
@@ -81,7 +84,7 @@ namespace IrRemote
 			if (!motor.Connected)
 				return;
 
-			Console.WriteLine($"Apply '{drive}' motor command on '{motor.PortName}'. Speed: {speed}");
+			_logger.Debug($"Apply '{drive}' motor command on '{motor.PortName}'. Speed: {speed}");
 			if (drive == MotorDrive.Stop)
 			{
 				motor.SpeedSp = 0;
