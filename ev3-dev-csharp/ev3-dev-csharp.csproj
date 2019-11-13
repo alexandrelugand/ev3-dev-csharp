@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
@@ -53,7 +54,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sensors\Color\Colors.cs" />
     <Compile Include="Constants\DeviceTypes.cs" />
+    <Compile Include="Sensors\Color\RefRaw.cs" />
+    <Compile Include="Sensors\Color\RgbRaw.cs" />
     <Compile Include="Core\DesignPatterns\Singleton.cs" />
     <Compile Include="Core\Helpers\LogHelper.cs" />
     <Compile Include="Core\Helpers\Math.cs" />
@@ -71,6 +75,9 @@
     <Compile Include="Motors\LargeMotor.cs" />
     <Compile Include="Devices\Led.cs" />
     <Compile Include="Devices\LegoPort.cs" />
+    <Compile Include="Sensors\Ir\IrCal.cs" />
+    <Compile Include="Sensors\Ir\IrRemote.cs" />
+    <Compile Include="Sensors\Ir\IrSeeker.cs" />
     <Compile Include="Sensors\LightSensor.cs" />
     <Compile Include="Motors\MediumMotor.cs" />
     <Compile Include="Motors\Motor.cs" />
