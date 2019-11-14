@@ -24,13 +24,9 @@ namespace HeadControl
         public HeadControl(string irPort, string touchPort, string colorPort, string motorPort, ILog logger)
         {
             _logger = logger;
-            _ir = new InfraredSensor(irPort);
-            _ir.SetIrProx();
-
+            _ir = new InfraredSensor(irPort) { ProximityMode = true };
             _touch = new TouchSensor(touchPort);
-
-            _color = new ColorSensor(colorPort);
-            _color.SetColColor();
+            _color = new ColorSensor(colorPort) { ColorMode = true };
 
             _motor = new MediumMotor(motorPort)
             {

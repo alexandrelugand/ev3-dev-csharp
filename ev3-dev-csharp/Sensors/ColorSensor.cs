@@ -8,56 +8,94 @@ namespace EV3.Dev.Csharp.Sensors
     /// </summary>
     public class ColorSensor : Sensor
     {
+        private const string ColReflect = "COL-REFLECT";
+        private const string ColAmbient = "COL-AMBIENT";
+        private const string ColColor = "COL-COLOR";
+        private const string ColRefRaw = "REF-RAW";
+        private const string ColRgbRaw = "RGB-RAW";
+
         public ColorSensor(string port)
             : base(port, DeviceTypes.ColorSensor, new[] { Drivers.LegoEv3Color })
         {
+            ReflectedMode = true;
         }
 
+
         /// <summary> 
-        /// Reflected light. Red LED on.
+        /// Reflected light. Red LED on (default mode).
         /// </summary>
-        public const string ModeColReflect = "COL-REFLECT";
+        public bool ReflectedMode
+        {
+            get => Mode == ColReflect;
+            // ReSharper disable once ValueParameterNotUsed
+            set => Mode = ColReflect;
+        }
 
         /// <summary> 
         /// Ambient light. Red LEDs off.
         /// </summary>
-        public const string ModeColAmbient = "COL-AMBIENT";
+        public bool AmbientMode
+        {
+            get => Mode == ColAmbient;
+            set => Mode = value ? ColAmbient : ColReflect;
+        }
 
         /// <summary> 
         /// Color. All LEDs rapidly cycling, appears white.
         /// </summary>
-        public const string ModeColColor = "COL-COLOR";
+        public bool ColorMode
+        {
+            get => Mode == ColColor;
+            set => Mode = value ? ColColor : ColReflect;
+        }
 
         /// <summary> 
         /// Raw reflected. Red LED on
         /// </summary>
-        public const string ModeRefRaw = "REF-RAW";
+        public bool RawReflectedMode
+        {
+            get => Mode == ColRefRaw;
+            set => Mode = value ? ColRefRaw : ColReflect;
+        }
 
         /// <summary> 
         /// Raw Color Components. All LEDs rapidly cycling, appears white.
         /// </summary>
-        public const string ModeRgbRaw = "RGB-RAW";
+        public bool RawColorMode
+        {
+            get => Mode == ColRgbRaw;
+            set => Mode = value ? ColRgbRaw : ColReflect;
+        }
 
-        public void SetColReflect() { Mode = ModeColReflect; }
-        public bool IsColReflect() { return Mode == ModeColReflect; }
+        /// <summary>
+        /// Reflected light intensity (0 to 100%)
+        /// </summary>
+        public byte Reflect => (byte)(ReflectedMode ? GetInt() : 0);
 
-        public void SetColAmbient() { Mode = ModeColAmbient; }
-        public bool IsColAmbient() { return Mode == ModeColAmbient; }
+        /// <summary>
+        /// Ambient light intensity (0 to 100%)
+        /// </summary>
+        public byte Ambient => (byte)(AmbientMode ? GetInt() : 0);
 
-        public void SetColColor() { Mode = ModeColColor; }
-        public bool IsColColor() { return Mode == ModeColColor; }
+        /// <summary>
+        /// Detected color
+        /// </summary>
+        public Colors Color => (Colors)(ColorMode ? GetInt() : 0);
 
-        public void SetRefRaw() { Mode = ModeRefRaw; }
-        public bool IsRefRaw() { return Mode == ModeRefRaw; }
+        /// <summary>
+        /// Raw Reflected:
+        /// Value0 (0 to 1020)
+        /// Value1 (0 to 1020)
+        /// </summary>
+        public RefRaw RawReflected => RawReflectedMode ? new RefRaw { Value0 = (short)GetInt(), Value1 = (short)GetInt(1) } : default(RefRaw);
 
-        public void SetRgbRaw() { Mode = ModeRgbRaw; }
-        public bool IsRgbRaw() { return Mode == ModeRgbRaw; }
-
-        public byte Reflect => (byte)(IsColReflect() ? GetInt() : 0);
-        public byte Ambient => (byte)(IsColAmbient() ? GetInt() : 0);
-        public Colors Color => (Colors)(IsColColor() ? GetInt() : 0);
-        public RefRaw RefRaw => IsRefRaw() ? new RefRaw { Value0 = (short)GetInt(), Value1 = (short)GetInt(1) } : default(RefRaw);
-        public RgbRaw RgbRaw => IsRgbRaw() ? new RgbRaw { Value0 = (short)GetInt(), Value1 = (short)GetInt(1), Value2 = (short)GetInt(2) } : default(RgbRaw);
+        /// <summary>
+        /// Raw Color Components :
+        /// Value0 (0 to 1020)
+        /// Value1 (0 to 1020)
+        /// Value2 (0 to 1020)
+        /// </summary>
+        public RgbRaw RawColorRaw => RawColorMode ? new RgbRaw { Value0 = (short)GetInt(), Value1 = (short)GetInt(1), Value2 = (short)GetInt(2) } : default(RgbRaw);
 
     }
 }

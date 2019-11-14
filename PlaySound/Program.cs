@@ -28,8 +28,7 @@ namespace PlaySound
                 var version = fvi.FileVersion;
                 Logger.Info($"###### EV3 Play sound ({version}) ######");
 
-                var ir = new InfraredSensor(Inputs.Input4);
-                ir.SetIrRemote();
+                var ir = new InfraredSensor(Inputs.Input4) { RemoteMode = true };
 
                 while (true)
                 {
@@ -41,7 +40,7 @@ namespace PlaySound
                             break;
                     }
 
-                    switch (ir.GetInt())
+                    switch (ir.Remote.Ch1)
                     {
                         case 1: // red up
                             soundManager.PlaySoundAsync("sound1");

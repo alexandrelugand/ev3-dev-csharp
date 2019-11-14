@@ -8,6 +8,10 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using log4net;
+using System;
+using System.Diagnostics;
+using System.Reflection;
+using System.Threading;
 
 namespace IrRemote
 {
@@ -28,10 +32,9 @@ namespace IrRemote
                 var version = fvi.FileVersion;
                 Logger.Info($"###### EV3 Infrared Remote ({version}) ######");
 
-                var ir = new InfraredSensor(Inputs.Input4);
-                var driveService1 = new DriveService(Outputs.OutputD, Outputs.OutputA, Logger);
+                var ir = new InfraredSensor(Inputs.Input4) { RemoteMode = true };
+                var driveService = new DriveService(Outputs.OutputD, Outputs.OutputA, Logger);
 
-                ir.SetIrRemote();
                 soundManager.PlaySound("ready");
 
                 while (true)
@@ -44,10 +47,8 @@ namespace IrRemote
                             break;
                     }
 
-                    int value0 = ir.GetInt();
-
-                    var driveState1 = new DriveState(value0);
-                    driveService1.Drive(driveState1);
+                    var driveState = new DriveState(ir.Remote.Ch1);
+                    driveService.Drive(driveState);
                 }
             }
             catch (Exception ex)
