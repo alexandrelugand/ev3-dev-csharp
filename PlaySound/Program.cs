@@ -3,11 +3,11 @@ using EV3.Dev.Csharp.Core.Helpers;
 using EV3.Dev.Csharp.Sensors;
 using EV3.Dev.Csharp.Services;
 using EV3.Dev.Csharp.Services.Sound;
-using log4net;
 using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
+using log4net;
 
 namespace PlaySound
 {
@@ -19,9 +19,9 @@ namespace PlaySound
         {
             try
             {
-                var ev3Services = Ev3Services.Instance;
-                Logger = ev3Services.GetService<ILog>();
-                var soundManager = ev3Services.GetService<ISoundManager>();
+                var ev3Services = Ev3.Instance;
+                Logger = ev3Services.Resolve<ILog>();
+                var soundManager = ev3Services.Resolve<ISoundManager>();
                 Logger.Clear();
 
                 var fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);

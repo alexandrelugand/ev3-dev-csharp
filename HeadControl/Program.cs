@@ -3,33 +3,33 @@ using EV3.Dev.Csharp.Core.Helpers;
 using EV3.Dev.Csharp.Sensors.Color;
 using EV3.Dev.Csharp.Services;
 using EV3.Dev.Csharp.Services.Sound;
-using log4net;
 using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
+using log4net;
 
 namespace HeadControl
 {
     public class Program
     {
-        private static ILog Logger { get; set; }
+        private static ILog Log { get; set; }
 
         public static void Main(string[] args)
         {
             try
             {
-                var ev3Services = Ev3Services.Instance;
-                Logger = ev3Services.GetService<ILog>();
-                Logger.Clear();
+                var ev3Services = Ev3.Instance;
+                Log = ev3Services.Resolve<ILog>();
+                Log.Clear();
 
                 var fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
                 var version = fvi.FileVersion;
-                Logger.Info($"###### EV3 Head Control ({version}) ######");
+                Log.Info($"###### EV3 Head Control ({version}) ######");
 
-                var soundManager = ev3Services.GetService<ISoundManager>();
+                var soundManager = ev3Services.Resolve<ISoundManager>();
                 soundManager.Volume = 10;
-                var headControl = new HeadControl(Inputs.Input4, Inputs.Input1, Inputs.Input3, Outputs.OutputB, Logger);
+                var headControl = new HeadControl(Inputs.Input4, Inputs.Input1, Inputs.Input3, Outputs.OutputB, Log);
                 soundManager.PlaySound("connect");
                 headControl.Calibrate();
                 soundManager.PlaySound("ready");
@@ -74,12 +74,12 @@ namespace HeadControl
             }
             catch (Exception ex)
             {
-                if (Logger != null)
+                if (Log != null)
                 {
-                    Logger.Status(Status.KO, "Unexpected error");
+                    Log.Status(Status.KO, "Unexpected error");
                     Console.ReadKey();
 
-                    Logger.Error("Stack trace", ex);
+                    Log.Error("Stack trace", ex);
                     Console.ReadKey();
                 }
             }

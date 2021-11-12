@@ -18,6 +18,11 @@ namespace EV3.Dev.Csharp.Services.Sound
             Volume = 50;
         }
 
+        public void Load()
+        {
+            _resourceManager.LoadSounds();
+        }
+
         public void InterruptSound()
         {
             if (_process != null && !_process.HasExited)

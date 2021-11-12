@@ -1,58 +1,84 @@
 ﻿using EV3.Dev.Csharp.Core.Helpers;
 using EV3.Dev.Csharp.Services;
-using EV3.Dev.Csharp.Services.Sound;
+using EV3.Dev.Csharp.Services.Remoting;
+using Ev3System.Services.Engine;
 using log4net;
+using McMaster.Extensions.CommandLineUtils;
+using MotorControl.Commands;
 using System;
-using System.Diagnostics;
-using System.Reflection;
+using System.Configuration;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Unity;
 
 namespace MotorControl
 {
     public class Program
     {
-        private static ILog Logger { get; set; }
+        private static ILog Log { get; set; }
 
-        public static void Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
             try
             {
-                var ev3Services = Ev3Services.Instance;
-                Logger = ev3Services.GetService<ILog>();
-                var soundManager = ev3Services.GetService<ISoundManager>();
-                Logger.Clear();
-
-                var fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
-                var version = fvi.FileVersion;
-                Logger.Info($"###### EV3 Motor Control ({version}) ######");
-                var shell = new Shell(Logger);
-                soundManager.PlaySound("ready");
-
-                while (true)
+                using (var ev3 = Ev3.Instance)
                 {
-                    if (Console.KeyAvailable)
+                    ev3.Init(c =>
                     {
-                        var key = Console.ReadKey();
-                        if (key.Key == ConsoleKey.Escape)
-                            break;
-                    }
+                        var hostName = ConfigurationManager.AppSettings["HostName"];
+                        var remoteServices = RemoteController.Connect(hostName);
+                        if (remoteServices.AvailableServices.Any(s => s.EqualsNoCase(nameof(EngineControl))))
+                        {
+                            if (remoteServices.GetService(nameof(EngineControl)) is IEngineControl engineControl)
+                                c.RegisterInstance(engineControl);
+                        }
+                    });
+                    Log = ev3.Resolve<ILog>();
+                    //var soundManager = ev3.Resolve<ISoundManager>();
+                    Log.Clear();
 
-                    var cmd = Console.ReadLine();
-                    var result = shell.Eval(cmd);
-                    if (result != null)
-                        Logger.Status(Status.OK, $"{result}");
+                    //Display version
+                    var cmd = "--version";
+                    await CommandLineApplication.ExecuteAsync<HelpCmd>(cmd);
+
+                    //var engineControl = ev3.Resolve<IEngineControl>();
+                    //engineControl.Prepare();
+
+                    //soundManager.Load();
+                    //soundManager.PlaySound("ready");
+
+                    do
+                    {
+                        if (args.Length > 0)
+                            await CommandLineApplication.ExecuteAsync<HelpCmd>(args);
+                        Console.Write(@"> ");
+
+                        cmd = Console.ReadLine();
+                        if (!string.IsNullOrEmpty(cmd))
+                        {
+                            var regex = new Regex(@"""(.*?)""");
+                            foreach (var str in regex.Matches(cmd).Cast<Match>().Select(m => m.Value))
+                            {
+                                cmd = cmd.Replace(str, str.Replace(" ", "$_$"));
+                            }
+
+                            args = cmd.Split(' ').Select(c => c.Replace("$_$", " ")).ToArray();
+                        }
+
+                    } while (!cmd.EqualsNoCase("quit") && !cmd.EqualsNoCase("exit"));
                 }
             }
             catch (Exception ex)
             {
-                if (Logger != null)
+                if (Log != null)
                 {
-                    Logger.Status(Status.KO, "Unexpected error");
-                    Console.ReadKey();
-
-                    Logger.Error("Stack trace", ex);
+                    Log.Status(Status.KO, "Unexpected error");
+                    Log.Error("Stack trace", ex);
                     Console.ReadKey();
                 }
             }
+            return 0;
         }
     }
 }

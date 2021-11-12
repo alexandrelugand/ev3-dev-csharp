@@ -2,6 +2,7 @@
 {
     public interface ISoundManager
     {
+        void Load();
         void InterruptSound();
         void PlaySound(string soundName);
         void PlaySoundAsync(string soundName);
