@@ -7,7 +7,7 @@ using log4net;
 using System;
 using System.Configuration;
 using System.Reflection;
-using Unity;
+using System.Threading;
 
 namespace EngineControl
 {
@@ -22,12 +22,9 @@ namespace EngineControl
             {
                 using (var ev3 = Ev3.Instance)
                 {
-                    ev3.Init(c =>
-                    {
-                        c.RegisterType<IEngineControl, Ev3System.Services.Engine.EngineControl>(TypeLifetime.Singleton);
-                    });
                     Log = ev3.Resolve<ILog>();
                     var soundManager = ev3.Resolve<ISoundManager>();
+                    soundManager.Load();
                     Log.Clear();
 
                     //Display version
@@ -41,10 +38,8 @@ namespace EngineControl
                     {
                         if (remoteServices.GetService(nameof(EngineControl)) is IEngineControl engineControl)
                         {
-                            engineControl.Prepare();
-
-                            soundManager.Load();
                             soundManager.PlaySound("ready");
+                            engineControl.Prepare();
 
                             string cmd;
 
@@ -53,6 +48,11 @@ namespace EngineControl
                                 Console.Write(@"> ");
                                 cmd = Console.ReadLine();
                             } while (!cmd.EqualsNoCase("quit") && !cmd.EqualsNoCase("exit"));
+
+                            Log.Info("Exiting program...");
+                            remoteServices.ReleaseService(engineControl);
+                            remoteServices.Dispose();
+                            remoteController.Dispose();
                         }
                     }
                 }
@@ -66,6 +66,7 @@ namespace EngineControl
                     Console.ReadKey();
                 }
             }
+            Thread.CurrentThread.Abort(); //Force program to exit
         }
     }
 }

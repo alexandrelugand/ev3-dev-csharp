@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Runtime.Remoting;
@@ -10,6 +11,7 @@ namespace EV3.Dev.Csharp.Services.Remoting
 {
     public class RemoteController : MarshalByRefObject, IRemoteController
     {
+        private readonly ILog _log;
         private readonly BinaryServerFormatterSinkProvider _serverProvider;
         private bool _disposed;
         private TcpServerChannel _channel;
@@ -18,6 +20,12 @@ namespace EV3.Dev.Csharp.Services.Remoting
         public RemoteController()
         {
             _serverProvider = new BinaryServerFormatterSinkProvider { TypeFilterLevel = TypeFilterLevel.Full };
+        }
+
+        public RemoteController(ILog log) :
+            this()
+        {
+            _log = log;
         }
 
         private static IRemoteServices _remoteServices;
@@ -43,6 +51,7 @@ namespace EV3.Dev.Csharp.Services.Remoting
 
             try
             {
+                _log?.Info("Remote server starting...");
                 _remoteServices = remoteServices;
                 RemotingConfiguration.CustomErrorsMode = CustomErrorsModes.Off;
 
@@ -105,6 +114,7 @@ namespace EV3.Dev.Csharp.Services.Remoting
             if (_disposed)
                 return;
 
+            _log?.Info("Disposing remote controller...");
             if (_channel != null)
                 ChannelServices.UnregisterChannel(_channel);
 

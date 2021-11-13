@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace EV3.Dev.Csharp.Services.Remoting
 {
-    public interface IRemoteServices
+    public interface IRemoteServices : IDisposable
     {
         string Version { get; }
         List<string> AvailableServices { get; }

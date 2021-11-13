@@ -11,14 +11,12 @@ namespace EV3.Dev.Csharp.Services.Remoting
     {
         private readonly ILog _log;
         private bool _disposed;
-        private List<IRemoteService> _remoteServices;
+        private readonly List<IRemoteService> _remoteServices;
 
         public RemoteServices(IEv3 ev3, ILog log)
         {
             _log = log;
             _remoteServices = new List<IRemoteService>();
-
-            _log.Info("Remote server starting...");
 
             var remoteServiceTypes = AppDomain
                 .CurrentDomain
@@ -60,7 +58,7 @@ namespace EV3.Dev.Csharp.Services.Remoting
 
         public void ReleaseService(IRemoteService service)
         {
-            // ReSharper disable once SuspiciousTypeConversion.Global
+            _log.Info($"Release {service.ServiceName} service...");
             if (service is IDisposable disposable)
                 disposable.Dispose();
         }
@@ -72,6 +70,7 @@ namespace EV3.Dev.Csharp.Services.Remoting
             if (_disposed)
                 return;
 
+            _log.Info("Disposing remote services...");
             _disposed = disposing;
         }
 

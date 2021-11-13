@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using EV3.Dev.Csharp.Constants;
+﻿using EV3.Dev.Csharp.Constants;
 using EV3.Dev.Csharp.Core.Helpers;
 using EV3.Dev.Csharp.Events;
 using EV3.Dev.Csharp.Motors;
 using EV3.Dev.Csharp.Sensors;
 using log4net;
 using Prism.Events;
+using System;
+using System.Linq;
+using System.Threading;
 
 namespace Ev3System.Services.Engine
 {
@@ -47,6 +47,7 @@ namespace Ev3System.Services.Engine
 
         public void Prepare()
         {
+            _log.Info("Prepare engine control...");
             _emergencyStopThread = new Thread(() =>
             {
                 while (!_stopEvent.WaitOne(10))
@@ -80,6 +81,7 @@ namespace Ev3System.Services.Engine
 
         public void Unprepare()
         {
+            _log.Info("Unprepare engine control...");
             if (_emergencyStopThread != null)
             {
                 _stopEvent.Set();
