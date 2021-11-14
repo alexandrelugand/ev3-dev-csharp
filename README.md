@@ -7,7 +7,7 @@ This project is a fork [pgrudzien12/ev3dev-lang-csharp](https://github.com/pgrud
 
 [**ev3dev**](https://www.ev3dev.org/) - a Debian Linux-based operating system runs on LEGO® MINDSTORMS EV3
 
-[**Mono**](https://www.ev3dev.org/) - An open source implementation of Microsoft's .NET Framework
+[**Mono**](https://www.mono-project.com/) - An open source implementation of Microsoft's .NET Framework
 
 
 #### Setup your Environment
