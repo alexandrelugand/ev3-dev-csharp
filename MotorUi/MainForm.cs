@@ -1,4 +1,5 @@
 ﻿using Ev3System.Services.Engine;
+using Ev3System.Services.Gearbox;
 using FontAwesome.Sharp;
 using MotorUi.Properties;
 using System;
@@ -13,9 +14,12 @@ namespace MotorUi
 {
     public partial class MainForm : RadForm
     {
+        private const int GearboxFactor = 2;
+
         private readonly IEngineControl _engineControl;
+        private readonly IGearboxControl _gearboxControl;
         private readonly Timer _timer;
-        private int _gearboxRatio = 2;
+        private int _gearboxRatio;
         private bool _startStop;
         private bool _emergencyStop;
 
@@ -24,10 +28,12 @@ namespace MotorUi
             InitializeComponent();
         }
 
-        public MainForm(IEngineControl engineControl)
+        public MainForm(IEngineControl engineControl, IGearboxControl gearboxControl)
             : this()
         {
             _engineControl = engineControl;
+            _gearboxControl = gearboxControl;
+            _gearboxRatio = _gearboxControl.Gear * GearboxFactor;
             _timer = new Timer { Interval = 100 };
             _timer.Tick += timer_Tick;
             _timer.Start();
@@ -75,13 +81,10 @@ namespace MotorUi
         private void radToggleSwitch1_ValueChanged(object sender, EventArgs e)
         {
             if (radToggleSwitch1.Value)
-            {
-                _gearboxRatio = 4;
-            }
+                _gearboxControl.GearUp();
             else
-            {
-                _gearboxRatio = 2;
-            }
+                _gearboxControl.GearDown();
+            _gearboxRatio = _gearboxControl.Gear * GearboxFactor;
         }
 
         private async void radToggleButton1_ToggleStateChanged(object sender, StateChangedEventArgs args)

@@ -2,6 +2,7 @@
 using EV3.Dev.Csharp.Services;
 using EV3.Dev.Csharp.Services.Remoting;
 using Ev3System.Services.Engine;
+using Ev3System.Services.Gearbox;
 using log4net;
 using System;
 using System.Configuration;
@@ -26,6 +27,7 @@ namespace MotorUi
                 using (var ev3 = Ev3.Instance)
                 {
                     IEngineControl engineControl = null;
+                    IGearboxControl gearboxControl = null;
                     ev3.Init(c =>
                     {
                         var hostName = ConfigurationManager.AppSettings["HostName"];
@@ -35,16 +37,23 @@ namespace MotorUi
                             engineControl = remoteServices.GetService(nameof(EngineControl)) as IEngineControl;
                             c.RegisterInstance(engineControl);
                         }
+
+                        if (remoteServices.AvailableServices.Any(s => s.EqualsNoCase(nameof(GearboxControl))))
+                        {
+                            gearboxControl = remoteServices.GetService(nameof(GearboxControl)) as IGearboxControl;
+                            c.RegisterInstance(gearboxControl);
+                        }
                     });
                     Log = ev3.Resolve<ILog>();
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(new MainForm(engineControl));
+                    Application.Run(new MainForm(engineControl, gearboxControl));
                 }
             }
             catch (Exception ex)
             {
                 Log?.Error("Stack trace", ex);
+                MessageBox.Show($"Unexpected error:\r\n{ex}", "Engine control", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

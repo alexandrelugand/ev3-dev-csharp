@@ -31,6 +31,7 @@ namespace MotorUi
         {
             this.telerikMetroBlueTheme1 = new Telerik.WinControls.Themes.TelerikMetroBlueTheme();
             this.SpeedRadialGauge = new Telerik.WinControls.UI.Gauges.RadRadialGauge();
+            this.radLabel4 = new Telerik.WinControls.UI.RadLabel();
             this.radialGaugeArc1 = new Telerik.WinControls.UI.Gauges.RadialGaugeArc();
             this.radialGaugeArc2 = new Telerik.WinControls.UI.Gauges.RadialGaugeArc();
             this.radialGaugeArc3 = new Telerik.WinControls.UI.Gauges.RadialGaugeArc();
@@ -48,9 +49,9 @@ namespace MotorUi
             this.radLabel3 = new Telerik.WinControls.UI.RadLabel();
             this.radToggleButton2 = new Telerik.WinControls.UI.RadToggleButton();
             this.radToggleButton1 = new Telerik.WinControls.UI.RadToggleButton();
-            this.radLabel4 = new Telerik.WinControls.UI.RadLabel();
             ((System.ComponentModel.ISupportInitialize)(this.SpeedRadialGauge)).BeginInit();
             this.SpeedRadialGauge.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radButton1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radToggleSwitch1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radTrackBar1)).BeginInit();
@@ -61,7 +62,6 @@ namespace MotorUi
             ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radToggleButton2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radToggleButton1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,6 +86,14 @@ namespace MotorUi
             this.SpeedRadialGauge.Text = "SpeedRadialGauge1";
             this.SpeedRadialGauge.ThemeName = "TelerikMetroBlue";
             this.SpeedRadialGauge.Value = 0F;
+            // 
+            // radLabel4
+            // 
+            this.radLabel4.Location = new System.Drawing.Point(153, 248);
+            this.radLabel4.Name = "radLabel4";
+            this.radLabel4.Size = new System.Drawing.Size(37, 18);
+            this.radLabel4.TabIndex = 0;
+            this.radLabel4.Text = "tr/min";
             // 
             // radialGaugeArc1
             // 
@@ -236,7 +244,7 @@ namespace MotorUi
             0});
             this.radSpinEditor1.Name = "radSpinEditor1";
             this.radSpinEditor1.NullableValue = new decimal(new int[] {
-            1,
+            10,
             0,
             0,
             0});
@@ -244,7 +252,7 @@ namespace MotorUi
             this.radSpinEditor1.TabIndex = 13;
             this.radSpinEditor1.ThemeName = "TelerikMetroBlue";
             this.radSpinEditor1.Value = new decimal(new int[] {
-            1,
+            10,
             0,
             0,
             0});
@@ -299,14 +307,6 @@ namespace MotorUi
             ((Telerik.WinControls.Primitives.ImagePrimitive)(this.radToggleButton1.GetChildAt(0).GetChildAt(1).GetChildAt(0))).MinSize = new System.Drawing.Size(100, 100);
             ((Telerik.WinControls.Primitives.ImagePrimitive)(this.radToggleButton1.GetChildAt(0).GetChildAt(1).GetChildAt(0))).MaxSize = new System.Drawing.Size(100, 100);
             // 
-            // radLabel4
-            // 
-            this.radLabel4.Location = new System.Drawing.Point(153, 248);
-            this.radLabel4.Name = "radLabel4";
-            this.radLabel4.Size = new System.Drawing.Size(37, 18);
-            this.radLabel4.TabIndex = 0;
-            this.radLabel4.Text = "tr/min";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -337,6 +337,7 @@ namespace MotorUi
             ((System.ComponentModel.ISupportInitialize)(this.SpeedRadialGauge)).EndInit();
             this.SpeedRadialGauge.ResumeLayout(false);
             this.SpeedRadialGauge.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.radLabel4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radButton1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radToggleSwitch1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radTrackBar1)).EndInit();
@@ -347,7 +348,6 @@ namespace MotorUi
             ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radToggleButton2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radToggleButton1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radLabel4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
