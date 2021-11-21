@@ -53,6 +53,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Engine\EngineControl.cs" />
     <Compile Include="Services\Engine\IEngineControl.cs" />
+    <Compile Include="Services\Gearbox\GearboxControl.cs" />
+    <Compile Include="Services\Gearbox\IGearboxControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ev3-dev-csharp\ev3-dev-csharp.csproj">
@@ -64,5 +66,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

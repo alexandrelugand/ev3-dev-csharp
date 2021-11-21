@@ -25,7 +25,6 @@ namespace Ev3System.Services.Engine
         private Thread _emergencyStopThread;
         private bool _disposed;
 
-
         public EngineControl
         (
             ILog log,
