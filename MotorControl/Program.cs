@@ -2,6 +2,7 @@
 using EV3.Dev.Csharp.Services;
 using EV3.Dev.Csharp.Services.Remoting;
 using Ev3System.Services.Engine;
+using Ev3System.Services.Gearbox;
 using log4net;
 using McMaster.Extensions.CommandLineUtils;
 using MotorControl.Commands;
@@ -33,20 +34,19 @@ namespace MotorControl
                             if (remoteServices.GetService(nameof(EngineControl)) is IEngineControl engineControl)
                                 c.RegisterInstance(engineControl);
                         }
+
+                        if (remoteServices.AvailableServices.Any(s => s.EqualsNoCase(nameof(GearboxControl))))
+                        {
+                            if (remoteServices.GetService(nameof(GearboxControl)) is IGearboxControl gearboxControl)
+                                c.RegisterInstance(gearboxControl);
+                        }
                     });
                     Log = ev3.Resolve<ILog>();
-                    //var soundManager = ev3.Resolve<ISoundManager>();
                     Log.Clear();
 
                     //Display version
                     var cmd = "--version";
                     await CommandLineApplication.ExecuteAsync<HelpCmd>(cmd);
-
-                    //var engineControl = ev3.Resolve<IEngineControl>();
-                    //engineControl.Prepare();
-
-                    //soundManager.Load();
-                    //soundManager.PlaySound("ready");
 
                     do
                     {

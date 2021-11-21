@@ -1,9 +1,10 @@
-﻿using EV3.Dev.Csharp.Services;
+﻿using System;
+using System.Threading.Tasks;
+using EV3.Dev.Csharp.Services;
 using Ev3System.Services.Engine;
+using Ev3System.Services.Gearbox;
 using log4net;
 using McMaster.Extensions.CommandLineUtils;
-using System;
-using System.Threading.Tasks;
 
 namespace MotorControl.Commands
 {
@@ -14,6 +15,7 @@ namespace MotorControl.Commands
         protected readonly IEv3 Ev3;
         protected readonly ILog Log;
         protected readonly IEngineControl EngineControl;
+        protected readonly IGearboxControl GearboxControl;
 
 
         protected CmdBase(IConsole console)
@@ -22,6 +24,7 @@ namespace MotorControl.Commands
             Ev3 = EV3.Dev.Csharp.Services.Ev3.Instance;
             Log = Ev3.Resolve<ILog>();
             EngineControl = Ev3.Resolve<IEngineControl>();
+            GearboxControl = Ev3.Resolve<IGearboxControl>();
         }
 
         protected virtual Task<int> OnExecute(CommandLineApplication app) => Task.FromResult(0);

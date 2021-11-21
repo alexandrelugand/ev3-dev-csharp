@@ -12,7 +12,8 @@ namespace MotorControl.Commands
         typeof(IdleCmd),
         typeof(StopCmd),
         typeof(SpeedCmd),
-        typeof(RampCmd)
+        typeof(RampCmd),
+        typeof(GearCmd)
     )]
     public class HelpCmd : CmdBase
     {
