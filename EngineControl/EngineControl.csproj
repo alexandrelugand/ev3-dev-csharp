@@ -76,12 +76,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\CmdBase.cs" />
-    <Compile Include="Commands\RampCmd.cs" />
-    <Compile Include="Commands\SpeedCmd.cs" />
-    <Compile Include="Commands\StopCmd.cs" />
-    <Compile Include="Commands\IdleCmd.cs" />
-    <Compile Include="Commands\HelpCmd.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

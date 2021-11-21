@@ -3,6 +3,7 @@ using EV3.Dev.Csharp.Services;
 using EV3.Dev.Csharp.Services.Remoting;
 using EV3.Dev.Csharp.Services.Sound;
 using Ev3System.Services.Engine;
+using Ev3System.Services.Gearbox;
 using log4net;
 using System;
 using System.Configuration;
@@ -38,21 +39,26 @@ namespace EngineControl
                     {
                         if (remoteServices.GetService(nameof(EngineControl)) is IEngineControl engineControl)
                         {
-                            soundManager.PlaySound("ready");
                             engineControl.Prepare();
-
-                            string cmd;
-
-                            do
+                            if (remoteServices.GetService(nameof(GearboxControl)) is IGearboxControl gearboxControl)
                             {
-                                Console.Write(@"> ");
-                                cmd = Console.ReadLine();
-                            } while (!cmd.EqualsNoCase("quit") && !cmd.EqualsNoCase("exit"));
+                                gearboxControl.Prepare();
 
-                            Log.Info("Exiting program...");
-                            remoteServices.ReleaseService(engineControl);
-                            remoteServices.Dispose();
-                            remoteController.Dispose();
+                                soundManager.PlaySound("ready");
+                                string cmd;
+
+                                do
+                                {
+                                    Console.Write(@"> ");
+                                    cmd = Console.ReadLine();
+                                } while (!cmd.EqualsNoCase("quit") && !cmd.EqualsNoCase("exit"));
+
+                                Log.Info("Exiting program...");
+                                remoteServices.ReleaseService(gearboxControl);
+                                remoteServices.ReleaseService(engineControl);
+                                remoteServices.Dispose();
+                                remoteController.Dispose();
+                            }
                         }
                     }
                 }
