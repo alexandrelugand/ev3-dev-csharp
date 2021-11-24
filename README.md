@@ -25,7 +25,11 @@ This project is a fork [pgrudzien12/ev3dev-lang-csharp](https://github.com/pgrud
 
     sudo apt install mono-devel
    ```
-
+3. Configure MONO environment variable like this:
+   ```
+    export MONO_ENV_OPTIONS=-O=-aot,-float32,-inline
+    export MONO_GC_PARAMS=nursery-size=4m
+   ```
 
 ### Help & Tutorials ###
 
