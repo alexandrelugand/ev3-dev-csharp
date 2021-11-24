@@ -25,6 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ev3System", "Ev3System\Ev3S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6CB84FD5-E879-4BEA-BFD9-2E59DAD9581C}"
 	ProjectSection(SolutionItems) = preProject
+		EV3Dev-LEGO-EngineTestbed.jpg = EV3Dev-LEGO-EngineTestbed.jpg
 		README.md = README.md
 	EndProjectSection
 EndProject
