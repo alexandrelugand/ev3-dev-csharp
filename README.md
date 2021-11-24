@@ -31,5 +31,4 @@ This project is a fork [pgrudzien12/ev3dev-lang-csharp](https://github.com/pgrud
 
 [ev3devKit’s documentation](http://docs.ev3dev.org/projects/ev3devkit/en/latest/)
 
-
-<iframe width="640" height="360" src="https://www.youtube.com/embed/fj-mzdTo4MQ" title="EV3 DEV - LEGO Engine Testbed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![EV3 DEV - LEGO Engine Testbed](https://raw.githubusercontent.com/alexandrelugand/ev3-dev-csharp/153d71c903e59b9442a09a04005253eb776db569/EV3Dev-LEGO-EngineTestbed.jpg)](https://www.youtube.com/embed/fj-mzdTo4MQ)
